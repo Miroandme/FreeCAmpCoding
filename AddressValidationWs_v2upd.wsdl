@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 sp1 (http://www.altova.com) by Venkat Srinivasan (KAISER NICOLAI SERVICE CENTER) -->
+<wsdl:definitions xmlns:impl="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" xmlns:intf="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" xmlns:tns2="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/vo/v2" xmlns:tns3="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/exception/v2" xmlns:tns4="http://svc.kp.org/info/exception/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" xmlns:ns1="http://org.kp.svc/schema/commonTypes/exceptionTypes/v1" targetNamespace="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2">
+	<wsdl:types>
+		<xsd:schema xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" targetNamespace="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2">
+			<xsd:include schemaLocation="./AddressValidationv2/TransactionHeader.xsd"/>
+			<xsd:element name="transactionHeader" type="ns1:TransactionHeaderType"/>
+		</xsd:schema>
+		<xsd:schema xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://org.kp.svc/schema/commonTypes/exceptionTypes/v1" targetNamespace="http://org.kp.svc/schema/commonTypes/exceptionTypes/v1">
+			<xsd:include schemaLocation="./AddressValidationv2/ExceptionTypes.xsd"/>
+			<xsd:element name="BusinessException" type="ns1:BusinessExceptionType"/>
+			<xsd:element name="SystemException" type="ns1:SystemExceptionType"/>
+		</xsd:schema>
+		<xsd:schema xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:impl="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" targetNamespace="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2">
+			<xsd:include schemaLocation="./AddressValidationv2/AddressValidationInfo.xsd"/>
+			<xsd:element name="getAddressValidationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="getAddressValidationReturn" type="impl:FsAddressValidationResultVo" nillable="true"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getAddressValidation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="input" type="impl:FsAddressValidationInputVo" nillable="true"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+		<schema targetNamespace="http://svc.kp.org/info/exception/v2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<complexType name="MemberSystemException">
+				<complexContent>
+					<extension base="tns4:MemberException">
+						<sequence/>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="MemberException">
+				<sequence>
+					<element name="errors" nillable="true" type="tns4:ArrayOfErrorVo"/>
+					<element name="errorDiagnosticInfo" nillable="true" type="xsd:string"/>
+					<element name="message" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="ErrorVo">
+				<sequence>
+					<element name="code" nillable="true" type="xsd:string"/>
+					<element name="key" nillable="true" type="xsd:string"/>
+					<element name="message" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="ArrayOfErrorVo">
+				<sequence>
+					<element maxOccurs="unbounded" minOccurs="0" name="ErrorVo" nillable="true" type="tns4:ErrorVo"/>
+				</sequence>
+			</complexType>
+			<element name="MemberSystemException" nillable="true" type="tns4:MemberSystemException"/>
+		</schema>
+		<schema targetNamespace="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/exception/v2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns4="http://svc.kp.org/info/exception/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://svc.kp.org/info/exception/v2"/>
+			<complexType name="InvalidDataException">
+				<complexContent>
+					<extension base="tns4:MemberException">
+						<sequence/>
+					</extension>
+				</complexContent>
+			</complexType>
+			<element name="InvalidDataException" nillable="true" type="tns3:InvalidDataException"/>
+			<complexType name="InvalidReturnCodeException">
+				<complexContent>
+					<extension base="tns4:MemberException">
+						<sequence/>
+					</extension>
+				</complexContent>
+			</complexType>
+			<element name="InvalidReturnCodeException" nillable="true" type="tns3:InvalidReturnCodeException"/>
+		</schema>
+		
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:trnheader="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" targetNamespace="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:complexType name="TransactionHeaderType">
+		<xsd:sequence>
+			<xsd:element name="MessageDateTime" type="xsd:dateTime"/>
+			<xsd:element name="SenderTrnsDetails" type="trnheader:TransactionDetailType"/>
+			<xsd:element name="ReceiverTrnsDetails" type="trnheader:TransactionDetailType"/>
+			<xsd:element name="receiverEnvDetails" type="trnheader:EnvironmentDetailType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TransactionDetailType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+    					name of the sending application
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TransactionId" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+    					Transaction Id assigned by the service consumer
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AdditionalDetails" type="trnheader:AdditionalDetailType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>
+    					Used to send any additional information about
+    					the transaction which is not defined in the
+    					schema. Use this element only when new data
+    					field need to be added and the schema could be
+    					changed.
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AdditionalDetailType">
+		<xsd:sequence>
+			<xsd:element name="AddDetailName" type="xsd:string"/>
+			<xsd:element name="AddDetailValue" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="EnvironmentCodeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Devl"/>
+			<xsd:enumeration value="QA"/>
+			<xsd:enumeration value="UAT"/>
+			<xsd:enumeration value="Prod"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="EnvironmentDetailType">
+		<xsd:annotation>
+			<xsd:documentation>&lt;p&gt;Environment where service is to be run&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="envTypeCode" type="trnheader:EnvironmentCodeEnum"/>
+			<xsd:element name="envSubtypeCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated.Further breakdown of type (e.g. Workflow, Load, Training)&lt;/p&gt;</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="envCode" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated, Actual environment Name (e.g. MSET, DEV_CM_DMDEVL, CLONE_E)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="envDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="envSystemCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated;System environment applies to (e.g. DB2, CICS)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:trnheader="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" targetNamespace="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:complexType name="TransactionHeaderType">
+		<xsd:sequence>
+			<xsd:element name="MessageDateTime" type="xsd:dateTime"/>
+			<xsd:element name="SenderTrnsDetails" type="trnheader:TransactionDetailType"/>
+			<xsd:element name="ReceiverTrnsDetails" type="trnheader:TransactionDetailType"/>
+			<xsd:element name="receiverEnvDetails" type="trnheader:EnvironmentDetailType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TransactionDetailType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+    					name of the sending application
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TransactionId" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+    					Transaction Id assigned by the service consumer
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AdditionalDetails" type="trnheader:AdditionalDetailType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>
+    					Used to send any additional information about
+    					the transaction which is not defined in the
+    					schema. Use this element only when new data
+    					field need to be added and the schema could be
+    					changed.
+    				</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AdditionalDetailType">
+		<xsd:sequence>
+			<xsd:element name="AddDetailName" type="xsd:string"/>
+			<xsd:element name="AddDetailValue" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="EnvironmentCodeEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Devl"/>
+			<xsd:enumeration value="QA"/>
+			<xsd:enumeration value="UAT"/>
+			<xsd:enumeration value="Prod"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="EnvironmentDetailType">
+		<xsd:annotation>
+			<xsd:documentation>&lt;p&gt;Environment where service is to be run&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="envTypeCode" type="trnheader:EnvironmentCodeEnum"/>
+			<xsd:element name="envSubtypeCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated.Further breakdown of type (e.g. Workflow, Load, Training)&lt;/p&gt;</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="envCode" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated, Actual environment Name (e.g. MSET, DEV_CM_DMDEVL, CLONE_E)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="envDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="envSystemCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Enumerated;System environment applies to (e.g. DB2, CICS)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:impl="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" xmlns:intf="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" xmlns:ns="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" xmlns:ns1="http://org.kp.svc/schema/commonTypes/exceptionTypes/v1" xmlns:tns3="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/exception/v2" xmlns:tns4="http://svc.kp.org/info/exception/v2" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" targetNamespace="http://svc.kp.org/hp_admn/mbr_admn/addr_validate/v2" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<import namespace="http://org.kp.svc/schema/commonTypes/TransactionHeaderTypes/v2" schemaLocation="TransactionHeader.xsd"/>
+	<complexType name="FsAddressValidationInputVo">
+		<sequence>
+			<element name="city" type="xsd:string" nillable="true"/>
+			<element name="primaryStreet" type="xsd:string" nillable="true"/>
+			<element name="secondaryStreet" type="xsd:string" nillable="true"/>
+			<element name="state" type="xsd:string" nillable="true"/>
+			<element name="zipCode" type="xsd:string" nillable="true"/>
+			<element name="zipPlus4" type="xsd:string" nillable="true"/>
+			<element name="country" type="xsd:string" nillable="true"/>
+			<element name="transHeader" type="ns:TransactionHeaderType" nillable="true"/>
+		</sequence>
+	</complexType>
+	<complexType name="FsAddressValidationResultVo">
+		<sequence>
+			<element name="fsAddress" type="impl:FSAddressType"/>
+			<element name="address" type="impl:AdressInfoType" minOccurs="0"/>
+			<element name="transHeader" type="ns:TransactionHeaderType" nillable="true"/>
+		</sequence>
+	</complexType>
+	<complexType name="FSAddressType">
+		<sequence>
+			<element name="city" type="string" nillable="true"/>
+			<element name="primaryStreet" type="string" nillable="true"/>
+			<element name="secondaryStreet" type="string" nillable="true"/>
+			<element name="state" type="string" nillable="true"/>
+			<element name="zipCode" type="string" nillable="true"/>
+			<element name="zipPlus4" type="string" nillable="true"/>
+			<element name="countyNbr" type="string" nillable="true"/>
+			<element name="countyName" type="string" nillable="true"/>
+			<element name="country" type="string" nillable="true"/>
+			<element name="exitState" type="string" nillable="true"/>
+			<element name="addressValidated" type="boolean" nillable="true"/>
+			<element name="addrValidationMsg1" type="string" nillable="true"/>
+			<element name="addrValidationMsg10" type="string" nillable="true"/>
+			<element name="addrValidationMsg2" type="string" nillable="true"/>
+			<element name="addrValidationMsg3" type="string" nillable="true"/>
+			<element name="addrValidationMsg4" type="string" nillable="true"/>
+			<element name="addrValidationMsg5" type="string" nillable="true"/>
+			<element name="addrValidationMsg6" type="string" nillable="true"/>
+			<element name="addrValidationMsg7" type="string" nillable="true"/>
+			<element name="addrValidationMsg8" type="string" nillable="true"/>
+			<element name="addrValidationMsg9" type="string" nillable="true"/>
+		</sequence>
+	</complexType>
+	<complexType name="AdressInfoType">
+		<sequence>
+			<element name="addressType" type="xsd:string"/>
+			<element name="addressLine1" type="xsd:string"/>
+			<element name="addressLine2" type="xsd:string" minOccurs="0"/>
+			<element name="addressLine3" type="xsd:string" minOccurs="0"/>
+			<element name="city" type="xsd:string"/>
+			<element name="state" type="impl:StateType" minOccurs="0"/>
+			<element name="county" type="impl:CountyType" minOccurs="0"/>
+			<element name="country" type="impl:CountryType" minOccurs="0"/>
+			<element name="postalCode" type="xsd:string" minOccurs="0"/>
+			<element name="postalCodeExtn" type="xsd:string" minOccurs="0"/>
+			<element name="careOf" type="xsd:string" minOccurs="0"/>
+			<element name="mailStop" type="xsd:string" minOccurs="0"/>
+			<element name="beginDate" type="xsd:date" minOccurs="0"/>
+			<element name="endDate" type="xsd:date" minOccurs="0"/>
+			<element name="isValid" type="xsd:boolean" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CodeType">
+		<sequence>
+			<element name="typeId" type="integer" minOccurs="0"/>
+			<element name="code" type="string"/>
+			<element name="description" type="string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="StateType">
+		<complexContent>
+			<extension base="impl:CodeType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="CountyType">
+		<complexContent>
+			<extension base="impl:CodeType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="CountryType">
+		<complexContent>
+			<extension base="impl:CodeType"/>
+		</complexContent>
+	</complexType>
+</schema>
+	</wsdl:types>
+	<wsdl:message name="getAddressValidationRequest">
+		<wsdl:part name="addressInput" element="impl:getAddressValidation"/>
+	</wsdl:message>
+	<wsdl:message name="getAddressValidationResponse">
+		<wsdl:part name="addressOutput" element="impl:getAddressValidationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidDataException">
+		<wsdl:part name="fault" element="tns3:InvalidDataException"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidReturnCodeException">
+		<wsdl:part name="fault" element="tns3:InvalidReturnCodeException"/>
+	</wsdl:message>
+	<wsdl:message name="MemberSystemException">
+		<wsdl:part name="fault" element="tns4:MemberSystemException"/>
+	</wsdl:message>
+	<wsdl:message name="BusinessException">
+		<wsdl:part name="fault" element="ns1:BusinessException"/>
+	</wsdl:message>
+	<wsdl:message name="SystemException">
+		<wsdl:part name="fault" element="ns1:SystemException"/>
+	</wsdl:message>
+	<wsdl:portType name="AddressValidationWs">
+		<wsdl:operation name="getAddressValidation">
+			<wsdl:input name="getAddressValidationRequest" message="impl:getAddressValidationRequest"/>
+			<wsdl:output name="getAddressValidationResponse" message="impl:getAddressValidationResponse"/>
+			<wsdl:fault name="InvalidDataException" message="impl:InvalidDataException"/>
+			<wsdl:fault name="MemberSystemException" message="impl:MemberSystemException"/>
+			<wsdl:fault name="InvalidReturnCodeException" message="impl:InvalidReturnCodeException"/>
+			<wsdl:fault name="BusinessException" message="impl:BusinessException"/>
+			<wsdl:fault name="SystemException" message="impl:SystemException"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AddressValidationWsSoapBinding" type="impl:AddressValidationWs">
+		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getAddressValidation">
+			<wsdlsoap:operation soapAction="getAddressValidation"/>
+			<wsdl:input name="getAddressValidationRequest">
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getAddressValidationResponse">
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidDataException">
+				<wsdlsoap:fault name="InvalidDataException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MemberSystemException">
+				<wsdlsoap:fault name="MemberSystemException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidReturnCodeException">
+				<wsdlsoap:fault name="InvalidReturnCodeException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="BusinessException">
+				<wsdlsoap:fault name="BusinessException" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SystemException">
+				<wsdlsoap:fault name="SystemException" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AddressValidationWsService">
+		<wsdl:port name="AddressValidationWs" binding="impl:AddressValidationWsSoapBinding">
+			<wsdlsoap:address location="http://localhost:9080/address-validation-ws/services/AddressValidationWs"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
